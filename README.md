@@ -41,21 +41,31 @@ _~5 min live / ~10 min solo_
 
 > `apply-sonar` is a personal setup tool, not an official Sonar product.
 
+The script needs a `SONAR_TOKEN` environment variable. Generate a token at [sonarcloud.io](https://sonarcloud.io) under My Account > Security, then export it:
+
+```bash
+export SONAR_TOKEN=<YOUR_TOKEN>
+```
+
 From the repo root:
 
 ```bash
 ./apply-sonar.sh
 ```
 
-If `SONAR_TOKEN` is set in your environment, the script uses it automatically. Otherwise, it opens a browser for SonarQube Cloud login.
-
-The script creates the project, writes configuration files (`sonar-project.properties` and `.sonarlint/connectedMode.json`), and runs an analysis. The whole process takes about 40 seconds. At the end you'll see quality gate status and a dashboard URL:
+The script creates the project, writes configuration files (`sonar-project.properties` and `.sonarlint/connectedMode.json`), and runs an analysis. The whole process takes about 40 seconds. At the end you'll see a summary with quality gate status and a dashboard URL:
 
 ```text
-✓ Project created
-✓ Analysis complete
-Quality gate: Not Computed
-Dashboard: https://sonarcloud.io/project/overview?id=...
+[OK] Project created: <your-org>_sonarqube-codex-workshop
+[OK] Analysis complete.
+
+══════════════════════════════════════════════════════
+SonarQube Cloud setup complete!
+
+Project:       sonarqube-codex-workshop
+Dashboard:     https://sonarcloud.io/project/overview?id=...
+Quality Gate:  Not Computed
+══════════════════════════════════════════════════════
 ```
 
 The quality gate shows "Not Computed" on the first scan because the gate evaluates changes against a baseline, and the first scan establishes that baseline. You'll see a real pass/fail after the next code change.
