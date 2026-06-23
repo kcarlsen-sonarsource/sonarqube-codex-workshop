@@ -92,7 +92,7 @@ Start a Codex session and run `/plugins`. Find `sonarqube` in the `sonar` catalo
 
 ### Step 3: CLI authenticated
 
-If you set `SONAR_TOKEN` in Part 1 instead of using browser login, the SonarQube CLI may not be authenticated yet. Run:
+The `SONAR_TOKEN` env var you set in Part 1 authenticates `apply-sonar.sh`, but the SonarQube CLI itself stores credentials in the OS keychain. If you haven't logged in with the CLI yet, run:
 
 ```bash
 sonar auth login
@@ -121,11 +121,17 @@ On paid plans, the integrate command also installs an Agentic Analysis hook (Pos
 Expected output (free tier):
 
 ```text
-Config source: sonar-project.properties, .sonarlint/connectedMode.json
-✓ MCP config written
-✓ Secrets hook installed
-✓ AGENTS.md updated
-Integration complete. Restart Codex to activate.
+Installed
+  ✓  secret scanning hooks
+       .codex/hooks/sonar-secrets/build-scripts/prompt-secrets.sh
+       .codex/hooks.json
+  ✓  secrets-on-read instructions
+       AGENTS.md
+  ✓  MCP server
+       .codex/config.toml
+
+
+=== Setup complete! ===
 ```
 
 ### Step 5: MCP server verified
