@@ -105,11 +105,11 @@ parse_args() {
         local flag="$1"
         case "$flag" in
             --org|--key|--name|--token)
-                if [[ $# -lt 2 ]] || [[ "$2" == --* ]]; then
+                local value="${2:-}"
+                if [[ $# -lt 2 ]] || [[ "$value" == --* ]]; then
                     log_error "Missing value for $flag"
                     exit 1
                 fi
-                local value="$2"
                 case "$flag" in
                     --org)   ORG_KEY="$value" ;;
                     --key)   PROJECT_KEY="$value" ;;
@@ -217,7 +217,7 @@ ensure_sonar_cli() {
     log_info "Installing sonar CLI..."
     local install_exit=0
     set +e
-    curl -fsSL --connect-timeout 10 --max-time 300 \
+    curl --proto "=https" -fsSL --connect-timeout 10 --max-time 300 \
         https://raw.githubusercontent.com/SonarSource/sonarqube-cli/refs/heads/master/user-scripts/install.sh | bash
     install_exit=$?
     set -e
@@ -707,7 +707,7 @@ ensure_scanner() {
     zip_file="$(mktmp)"
     local curl_exit=0
     set +e
-    curl -fSL --connect-timeout 10 --max-time 300 -o "$zip_file" "$url"
+    curl --proto "=https" -fSL --connect-timeout 10 --max-time 300 -o "$zip_file" "$url"
     curl_exit=$?
     set -e
     if [[ "$curl_exit" -ne 0 ]]; then
@@ -719,7 +719,7 @@ ensure_scanner() {
     local sha_url="${url}.sha256"
     local expected_sha=""
     set +e
-    expected_sha="$(curl -fsSL --connect-timeout 10 --max-time 15 "$sha_url" | awk '{print $1}')"
+    expected_sha="$(curl --proto "=https" -fsSL --connect-timeout 10 --max-time 15 "$sha_url" | awk '{print $1}')"
     set -e
     if [[ -n "$expected_sha" ]]; then
         local actual_sha
