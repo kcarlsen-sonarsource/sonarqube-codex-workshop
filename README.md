@@ -68,7 +68,7 @@ Quality Gate:  Not Computed
 ══════════════════════════════════════════════════════
 ```
 
-The quality gate shows "Not Computed" on the first scan because the gate evaluates changes against a baseline, and the first scan establishes that baseline. You'll see a real pass/fail after the next code change.
+The quality gate shows "Not Computed" on the first scan because the gate evaluates changes against a baseline, and the first scan establishes that baseline. Since the gate only updates when a full project scan runs in CI, it stays "Not Computed" for the rest of this workshop.
 
 Open the dashboard link. You should see 3 vulnerabilities and 1 code smell across the sample project's four Python files.
 
@@ -180,7 +180,7 @@ Ask Codex for the project's quality gate status:
 Show me the quality gate status for this project
 ```
 
-The gate will still show "Not Computed" since no code changes have been made yet, but the query confirms Codex can read your project data from SonarQube Cloud.
+The gate will still show "Not Computed" because only the initial scan has run. The query confirms Codex can read your project data from SonarQube Cloud.
 
 Then list the open issues:
 
@@ -219,7 +219,7 @@ This runs the `sonar-analyze` skill, which sends the file to SonarQube for analy
 
 ### Automatic verification with Agentic Analysis
 
-The manual "fix, then analyze" cycle you just ran is something SonarQube can do automatically. [SonarQube Agentic Analysis](https://www.sonarsource.com/plans-and-pricing/sonarcloud/), available on paid plans, adds a PostToolUse hook to Codex. The hook fires after every code edit, scanning the changed files and surfacing new issues immediately without a manual analyze step.
+The manual "fix, then analyze" cycle you just ran is something SonarQube can do automatically. SonarQube Agentic Analysis, available on [paid plans](https://www.sonarsource.com/plans-and-pricing/sonarcloud/), adds a PostToolUse hook to Codex. The hook fires after every code edit, scanning the changed files and surfacing new issues immediately without a manual analyze step.
 
 What you did in two steps, Agentic Analysis does in a continuous loop: edit, verify, confirm clean.
 
@@ -246,7 +246,7 @@ What you did in two steps, Agentic Analysis does in a continuous loop: edit, ver
 export SONAR_TOKEN=<YOUR_TOKEN>
 ```
 
-**Quality gate shows "Not Computed."** This is expected on the first scan. The gate evaluates new code changes against a baseline, and the first scan establishes that baseline. Run a second scan after making a code change to see a pass/fail result.
+**Quality gate shows "Not Computed."** The quality gate evaluates new code against a baseline established by the first scan, and only updates when a full project scan runs in CI. The file-level `sonar analyze` command used in this workshop does not trigger a quality gate update.
 
 **Scanner warnings about Python version or Java reflection.** These are cosmetic warnings from the analysis engine. They don't affect scan results and are safe to ignore.
 
