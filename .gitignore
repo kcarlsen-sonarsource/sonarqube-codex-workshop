@@ -1,0 +1,10 @@
+sonar-project.properties
+.sonarlint/
+.scannerwork/
+.codex/
+.agents/
+AGENTS.md
+tasks.db
+exports/
+__pycache__/
+*.pyc
